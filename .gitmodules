@@ -1,0 +1,6 @@
+[submodule "host/src/inserr_ros"]
+	path = host/src/inserr_ros
+	url = https://github.com/RickyVu/inserr_ros.git
+[submodule "rov/src/inserr_ros_rov"]
+	path = rov/src/inserr_ros_rov
+	url = https://github.com/RickyVu/inserr_ros_rov.git

@@ -1,0 +1,39 @@
+version: '3.0'
+
+services:
+  core:
+    #image: noetic-ros-base-focal-rosbridge
+    build:
+      context: .
+      dockerfile: Dockerfile.core
+    container_name: core
+    restart: unless-stopped
+    network_mode: host
+    command: ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && roscore & rosrun rosbridge_server rosbridge_websocket"]
+    environment:
+      - ROS_MASTER_URI=http://192.168.10.1:11311
+      - ROS_IP=192.168.10.1
+    healthcheck:
+      test: ["CMD-SHELL", "/healthcheck.sh"]
+      timeout: 5s
+      interval: 10s
+      retries: 5
+      start_period: 30s
+
+  host:
+    # image: noetic-desktop-full-catkin
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: host
+    network_mode: host
+    restart: unless-stopped
+    # command: ["/bin/bash", "-c", "source /home/ros_ws/devel/setup.bash && mkdir /home/ros_ws/src/inserr_ros"]
+    volumes:
+      - ../host/src:/home/ros_ws/src
+    environment:
+      - ROS_MASTER_URI=http://192.168.10.1:11311
+      - ROS_IP=192.168.10.1
+    tty: true
+    depends_on:
+      - core

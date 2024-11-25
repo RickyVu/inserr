@@ -1,0 +1,16 @@
+# Use the trusted ROS Noetic desktop full image
+FROM osrf/ros:noetic-desktop-full
+
+# Set the working directory
+WORKDIR /home
+
+# setup.bash required for using catkin_make
+# Create the ROS workspace and build it
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && \
+    mkdir -p ros_ws/src && \
+    cd ros_ws/ && \
+    catkin_make"
+
+# Set up the environment
+RUN echo "source ros_ws/devel/setup.bash" >> ~/.bashrc
+

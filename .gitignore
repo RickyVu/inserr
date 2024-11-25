@@ -1,0 +1,4 @@
+/venv-inserr
+/docker-inserr-rov
+/host/src/CMakeLists.txt
+/rov/src/CMakeLists.txt
